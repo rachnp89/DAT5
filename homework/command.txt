@@ -1,11 +1,11 @@
-Rachaels-MacBook-Air:DAT5-Project rachael$ cd ..
+
+# Command line homework below
+
 Rachaels-MacBook-Air:Documents rachael$ cd ./DAT5/
-Rachaels-MacBook-Air:DAT5 rachael$ ls
+rachael$ ls
 README.md	code		data		homework	notebooks	other		slides
-Rachaels-MacBook-Air:DAT5 rachael$ cd data
-Rachaels-MacBook-Air:data rachael$ ls
-SMSSpamCollection.txt	airline_safety.csv	auto_mpg.txt		chipotle_orders.tsv	drinks.csv
-Rachaels-MacBook-Air:data rachael$ head SMSSpamCollection.txt 
+rachael$ cd data
+rachael$ head SMSSpamCollection.txt 
 ham	Go until jurong point, crazy.. Available only in bugis n great world la e buffet... Cine there got amore wat...
 ham	Ok lar... Joking wif u oni...
 spam	Free entry in 2 a wkly comp to win FA Cup final tkts 21st May 2005. Text FA to 87121 to receive entry question(std txt rate)T&C's apply 08452810075over18's
@@ -16,6 +16,31 @@ ham	Even my brother is not like to speak with me. They treat me like aids patent
 ham	As per your request 'Melle Melle (Oru Minnaminunginte Nurungu Vettam)' has been set as your callertune for all Callers. Press *9 to copy your friends Callertune
 spam	WINNER!! As a valued network customer you have been selected to receivea £900 prize reward! To claim call 09061701461. Claim code KL341. Valid 12 hours only.
 spam	Had your mobile 11 months or more? U R entitled to Update to the latest colour mobiles with camera for Free! Call The Mobile Update Co FREE on 08002986030
-Rachaels-MacBook-Air:data rachael$ wc SMSSpamCollection.txt 
+rachael$ wc SMSSpamCollection.txt 
     5574   92482  477907 SMSSpamCollection.txt
-Rachaels-MacBook-Air:data rachael$ 
+
+# There are 5574 text messages. 
+# Average words per text = (92482/5574) - 1
+# -1 due to “ham” and “spam” in each row
+# == 15.56 or 16 words. 
+# Average characters per text 
+
+rachael$ grep -ow 'spam	' SMSSpamCollection.txt | wc -l
+     747
+rachael$ grep -ow 'ham	' SMSSpamCollection.txt | wc -l
+    4827
+
+# There are 747 spam texts and 4828 ham texts. Somehow that doesn’t add up to 5574…
+
+Rachaels-Air:data rachael$ grep 'spam   ' SMSSpamCollection.txt | wc
+     747   18609  108408
+Rachaels-Air:data rachael$ grep 'ham    ' SMSSpamCollection.txt | wc
+    4827   73873  369500
+
+# average words in spam == 24.911 - 1 == 23.911 (24) words. / average characters in spam == 145.124 - 4 == 141.124 (141) characters.
+# average words in ham == 15.163 - 1 == 14.163 (14) words. / average characters in ham == 76.549 - 3 or 73.549 (74) words. 
+
+rachael$ grep 'ham' SMSSpamCollection.txt > ham.txt
+rachael$ grep 'spam' SMSSpamCollection.txt > spam.txt
+
+# boom.
