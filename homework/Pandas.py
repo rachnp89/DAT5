@@ -63,3 +63,17 @@ auto[auto.cylinders <= 4].sort_index(by='mpg', ascending=True).head(5)
 
 # PART 4
 # which variable have the greatest effect on mpg? 
+auto.groupby('cylinders').mpg.mean()
+auto.groupby('horsepower').mpg.describe()
+auto.groupby('weight').mpg.mean()
+auto.groupby('acceleration').mpg.mean()
+auto.groupby('horsepower').mpg.mean()
+auto.groupby('horsepower').mpg.mean()
+auto.sort_index(by=['model_year', 'mpg'])
+auto[(auto.mpg < 17)].describe()
+auto[(auto.mpg > 17) & (auto.mpg < 22)].describe()
+auto[(auto.mpg > 22) & (auto.mpg < 29)].describe()
+auto[(auto.mpg > 29)].describe()
+# Weight, displacement and horsepower have strong effects on mpg.
+# An increase in weight is correlated with a decrease in mpg.
+# Similarly, an increase in horsepower and displacement decreases mpg.
