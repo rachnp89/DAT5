@@ -5,14 +5,15 @@ Created on Fri Apr  3 10:43:12 2015
 @author: rachael
 """
 """
-Goal: determine which countries experienced the greatest acceleration in
-deforestation between 2001-2013. 
+Goal: determine which countries experienced greatest increase in deforestation
+rates (deforestation acceleration) between 2001-2013. 
 
 Data: this analysis draws on the 30 meter annual Landsat-based product 
 produced by Dr. Matt Hansen at the University of Maryland and Google. 
-To download the raw data, visit: http://earthenginepartners.appspot.com/science-2013-global-forest
-or www.globalforestwatch.org
-Data compiled in csv by Rachael Petersen by querying Cartodb. 
+To download the original raster data, visit: 
+http://data.globalforestwatch.org/datasets/93ecbfa0542c42fdaa8454fa42a6cc27
+
+Data compiled in csv by Rachael Petersen by querying GFW data in Cartodb.com 
 
 Relevant values in "UMD_30.csv" and "BRAZIL_TEST.csv"
 'country' = country name
@@ -21,7 +22,7 @@ Relevant values in "UMD_30.csv" and "BRAZIL_TEST.csv"
  'perc_change' = percent increase or decreases current year of tree cover loss represents as compared to previous year
  (note: 2001 is ommitted from data since it is the baseline year for loss, thus perc_change is null)
 
-Analysis steps:
+Analysis
 
 For each country: 
 
@@ -56,8 +57,10 @@ X = sm.add_constant(X)
 X.head()
 
 est = sm.OLS(y, X)
-est = est.fit()
-est.summary()
+results = est.fit()
+results.summary()
+results.rsquared
+results.params    
 
 
 # now, with scipy!
@@ -70,22 +73,33 @@ gradient, intercept, r_value, p_value, slope_std_error = stats.linregress(x,y)
 print "r-squared:", r_value**2
 print gradient
 print intercept
-
+    
 # open file of annual deforestation data for the whole world 
 world = pd.read_csv('/Users/rachael/Documents/DAT5-Project/data/UMD_30.csv') 
-world.groupby('country').count() 
+deflist = world.values.tolist()
 
+# reformatted data rows and columns to only include year and per_change
+worldnew = pd.read_csv('/Users/rachael/Documents/DAT5-Project/data/country_change.csv')
+worldlist = worldnew.values.tolist()
 
+#create an empty list 
+results = []
 
+# iterate through countries and fill empty list with linregress results
+for row in worldlist:
+    country = row[0]    
+    y = np.array([row[1:]]) # turn this into an array        
+    x = np.array([2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013])
+    stats.linregress(x,y) 
+    add = [country, gradient, intercept, r_value, p_value, slope_std_error]
+    results.append(add)
 
-# write results to a csv (incomplete)
+# Having trouble getting this to loop!!
+
+# write results of linregress for each country to a csv (incomplete)
 import csv
 
-c = csv.writer(open("output.csv", "wb"))
-c.writerow(["country","gradient","r_value","p_value","slope_std_error","intercept"])
-
-res = [brazil.country, gradient, (r_value**2), p_value, slope_std_error, intercept]
-
-writer.writerows(res)
-
+with open("output1.csv", "w") as output:
+    writer = csv.writer(output, lineterminator='\n')
+    writer.writerows(results)
 
