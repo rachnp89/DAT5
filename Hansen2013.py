@@ -5,18 +5,36 @@ Created on Fri Apr  3 10:43:12 2015
 @author: rachael
 """
 """
+Goal: determine which countries experienced the greatest acceleration in
+deforestation between 2001-2013. 
+
+Data: this analysis draws on the 30 meter annual Landsat-based product 
+produced by Dr. Matt Hansen at the University of Maryland and Google. 
+To download the raw data, visit: http://earthenginepartners.appspot.com/science-2013-global-forest
+or www.globalforestwatch.org
+Data compiled in csv by Rachael Petersen by querying Cartodb. 
+
+Relevant values in "UMD_30.csv" and "BRAZIL_TEST.csv"
+'country' = country name
+'year' = calendar year in which tree cover loss occured
+'loss' = total tree cover loss in hectares that occurred in stated year
+ 'perc_change' = percent increase or decreases current year of tree cover loss represents as compared to previous year
+ (note: 2001 is ommitted from data since it is the baseline year for loss, thus perc_change is null)
+
 Analysis steps:
+
+For each country: 
 
 1) Fit a least squares regression line, using 
 "year" as the predictor variable (2002-2013)
 and "perc_change" as the explanatory (target) variable.
 
-2) Iterate through data set, fitting one regression line for each country 
-(n=252)
-
-3) Write results to a csv, with one row for each country, and one column for
+2) Write results to a csv, with one row for each country, and one column for
 each of the following: "country", gradient, R2, P-value and intercept. 
 
+3) Compare gradient values for statistically significant regressions. Highest values
+indicate countries with greatest acceleration -- lowest values indicate countries with
+decelerating rates of change. 
 """ 
 
 
