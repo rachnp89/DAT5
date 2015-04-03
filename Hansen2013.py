@@ -90,8 +90,8 @@ for row in worldlist:
     country = row[0]    
     y = np.array([row[1:]]) # turn this into an array        
     x = np.array([2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013])
-    stats.linregress(x,y) 
-    add = [country, gradient, intercept, r_value, p_value, slope_std_error]
+    slope, intercept, r_value, p_value, std_err = stats.linregress(x,y)
+    add = [country, slope, intercept, r_value, p_value, slope_std_error]
     results.append(add)
 
 # Having trouble getting this to loop!!
