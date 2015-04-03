@@ -5,8 +5,8 @@ Created on Fri Apr  3 10:43:12 2015
 @author: rachael
 """
 """
-Goal: determine which countries experienced greatest increase in deforestation
-rates (deforestation acceleration) between 2001-2013. 
+Goal: determine which countries experienced greatest increase in tree cover loss
+rates ( acceleration) between 2001-2013. 
 
 Data: this analysis draws on the 30 meter annual Landsat-based product 
 produced by Dr. Matt Hansen at the University of Maryland and Google. 
@@ -38,6 +38,7 @@ indicate countries with greatest acceleration -- lowest values indicate countrie
 decelerating rates of change. 
 """ 
 
+# TEST USING BRAZIL 
 
 # toying with statsmodels
 import numpy as np
@@ -90,11 +91,9 @@ for row in worldlist:
     country = row[0]    
     y = np.array([row[1:]]) # turn this into an array        
     x = np.array([2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013])
-    slope, intercept, r_value, p_value, std_err = stats.linregress(x,y)
-    add = [country, slope, intercept, r_value, p_value, slope_std_error]
+    slope, intercept, r_value, p_value, stderr = stats.linregress(x,y)
+    add = [country, slope, intercept, r_value**2, p_value, stderr]
     results.append(add)
-
-# Having trouble getting this to loop!!
 
 # write results of linregress for each country to a csv (incomplete)
 import csv
@@ -103,3 +102,21 @@ with open("output1.csv", "w") as output:
     writer = csv.writer(output, lineterminator='\n')
     writer.writerows(results)
 
+# complete same analysis, using annual % tree cover loss / extent(2000) as target variable
+pnew = pd.read_csv('/Users/rachael/Documents/DAT5-Project/data/loss_perc_extnt.csv')
+worldperc = pnew.values.tolist()
+
+res = []
+for row in worldperc:
+    country = row[0]    
+    y = np.array([row[1:]]) # turn this into an array        
+    x = np.array([2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013])
+    slope, intercept, r_value, p_value, stderr = stats.linregress(x,y)
+    add = [country, slope, intercept, r_value**2, p_value, stderr]
+    res.append(add)
+    
+import csv
+
+with open("perc.csv", "w") as output:
+    writer = csv.writer(output, lineterminator='\n')
+    writer.writerows(res)
