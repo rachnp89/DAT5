@@ -1,0 +1,14 @@
+FORMA ASCII Files Decoder
+
+500 == 500 meters
+13 == horizontal modis tile coordinate
+12 == vertical modis tile coordinate
+986 == row (image coordinate)
+55 == column (image coordinate)
+-30.23 == lat of centroid
+-53.11 == long of centroid
+BRA == ISO code
+38 == VCF value (percent forest)
+16852 == GADM version 2 id (used to look up administrative area)
+60150 == ecoregion id
+0 == Hansen (2008) forest loss (1/0 yes/no)
